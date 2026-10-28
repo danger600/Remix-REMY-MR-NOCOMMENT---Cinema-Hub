@@ -1,3 +1,17 @@
+import shakaFlimePoster from './assets/images/shaka_flime_poster_1779178669774.png';
+import dangerBuildingPoster from './assets/images/danger_building_poster_1779178277633.png';
+import predictorBeatPoster from './assets/images/predictor_beat_poster_1779178294613.png';
+import inceptionPoster from './assets/images/inception_poster_ai_1779178702718.png';
+import dangalPoster from './assets/images/dangal_poster_ai_1779178722299.png';
+import conjuringPoster from './assets/images/conjuring_poster_ai_1779178741270.png';
+import killerDjMixPoster from './assets/images/killer_dj_mix_poster_1779178312166.png';
+import lionKingPoster from './assets/images/lion_king_poster_final_1779179227658.png';
+import johnWickPoster from './assets/images/john_wick_poster_ai_1779178770560.png';
+import rrrPoster from './assets/images/rrr_poster_ai_1779178789209.png';
+import quietPlacePoster from './assets/images/quiet_place_poster_ai_1779178807063.png';
+import killerDjAttackPoster from './assets/images/killer_dj_attack_poster_1779178330805.png';
+import bossTigerPoster from './assets/images/boss_tiger_poster_1779178345840.png';
+
 export interface Review {
   id: string;
   user: string;
@@ -39,7 +53,7 @@ export const INITIAL_MOVIES: Movie[] = [
     id: '1',
     title: 'Shaka Flime',
     category: 'african',
-    poster: '/src/assets/images/shaka_flime_poster_1779178669774.png',
+    poster: shakaFlimePoster,
     description: 'Iyi ni filime yubuturo bwumwami Shaka Zulu. Ikwerekana imico, intambara, nubuturo bwAbantu bAfurika. Urugamba rurakaze cyane mu migenzo ya gicuti n\'iy\'intambara.',
     year: '2026',
     rating: '9.2',
@@ -56,7 +70,7 @@ export const INITIAL_MOVIES: Movie[] = [
     id: '2',
     title: 'DANGER IN THE BUILDING',
     category: 'yawed',
-    poster: '/src/assets/images/danger_building_poster_1779178277633.png',
+    poster: dangerBuildingPoster,
     description: 'Tiger Nsanzi yinjira mu nyubako yuzuye akaga, agomba gukiza abari muri yo. Ni filime yuzuye akaga n\'ubwoba ariko iherekejwe n\'amajwi meza ya Predictor.',
     year: '2026',
     rating: '5.0',
@@ -87,7 +101,7 @@ export const INITIAL_MOVIES: Movie[] = [
     id: '4',
     title: 'PREDICTOR ON THE BEAT',
     category: 'yawed',
-    poster: '/src/assets/images/predictor_beat_poster_1779178294613.png',
+    poster: predictorBeatPoster,
     description: 'Predictor atera amajwi mu nzu y’amafirigo, Killer DJ ari kumwe na we kuva mu gitondo kugeza nimunsi.',
     year: '2026',
     rating: '4.9',
@@ -103,7 +117,7 @@ export const INITIAL_MOVIES: Movie[] = [
     id: '5',
     title: 'Inception',
     category: 'sci-fi',
-    poster: '/src/assets/images/inception_poster_ai_1779178702718.png',
+    poster: inceptionPoster,
     description: 'Umujura w’inzozi ahabwa inshingano yo gushyira igitekerezo mu mutwe w’umucuruzi unyuze mu nzozi zigeretse.',
     year: '2010',
     rating: '8.8',
@@ -118,7 +132,7 @@ export const INITIAL_MOVIES: Movie[] = [
     id: '6',
     title: 'Dangal',
     category: 'indian',
-    poster: '/src/assets/images/dangal_poster_ai_1779178722299.png',
+    poster: dangalPoster,
     description: 'Umwana w’umukinnyi wa mukirikiti yigisha abakobwa be uburyo bwo kurwana kugira ngo bageze ku nzozi ze.',
     year: '2016',
     rating: '8.4',
@@ -133,7 +147,7 @@ export const INITIAL_MOVIES: Movie[] = [
     id: '7',
     title: 'The Conjuring',
     category: 'horror',
-    poster: '/src/assets/images/conjuring_poster_ai_1779178741270.png',
+    poster: conjuringPoster,
     description: 'Abashakashatsi b’iby’umwuka bafasha umuryango utotezwa n’umwuka mubi mu nzu nshya bimukiyemo.',
     year: '2013',
     rating: '7.5',
@@ -148,7 +162,7 @@ export const INITIAL_MOVIES: Movie[] = [
     id: '8',
     title: 'KILLER DJ MIX',
     category: 'yawed',
-    poster: '/src/assets/images/killer_dj_mix_poster_1779178312166.png',
+    poster: killerDjMixPoster,
     description: 'Killer DJ atera amajwi mu birori byinshi, atera abantu kubyina mu buryo butangaje buzwi nka Yawed.',
     year: '2026',
     rating: '4.8',
@@ -164,7 +178,7 @@ export const INITIAL_MOVIES: Movie[] = [
     id: '9',
     title: 'The Lion King',
     category: 'african',
-    poster: '/src/assets/images/lion_king_poster_final_1779179227658.png',
+    poster: lionKingPoster,
     description: "Inkuru y'akanyamasyo k'intare Simba kagerageza kwisubiza intebe y'ubwami yabambuwe na se-wabo Scar nyuma y'urupfu rw'agahinda rwa se Mufasa. Simba agomba kwimenyereza kubaho mu mashyamba kugeza igihe agarukiye guhangana n'amateka ye. Ni filime irimo indirimbo n'uburanga bw'ubutayu.",
     year: '2019',
     rating: '6.9',
@@ -179,7 +193,7 @@ export const INITIAL_MOVIES: Movie[] = [
     id: '10',
     title: 'John Wick',
     category: 'action',
-    poster: '/src/assets/images/john_wick_poster_ai_1779178770560.png',
+    poster: johnWickPoster,
     description: 'Uwaye ari umwicanyi kabuhariwe agaruka mu bikorwa by’urugomo nyuma y’uko abagizi ba nabi bamubujije amahwemo.',
     year: '2014',
     rating: '7.4',
@@ -194,7 +208,7 @@ export const INITIAL_MOVIES: Movie[] = [
     id: '11',
     title: 'RRR',
     category: 'indian',
-    poster: '/src/assets/images/rrr_poster_ai_1779178789209.png',
+    poster: rrrPoster,
     description: 'Inkuru y’ubucuti n’ubwitange hagati y’intwari ebyiri zirwanira ubwigenge bw’Ubuhinde mu gihe cy’abakoloni.',
     year: '2022',
     rating: '7.8',
@@ -209,7 +223,7 @@ export const INITIAL_MOVIES: Movie[] = [
     id: '12',
     title: 'A Quiet Place',
     category: 'horror',
-    poster: '/src/assets/images/quiet_place_poster_ai_1779178807063.png',
+    poster: quietPlacePoster,
     description: 'Umuryango ugomba kuba mu mimerere y’iceceka kugira ngo utanyagwa n’ibinyabuzima biterwa n’amajwi.',
     year: '2018',
     rating: '7.5',
@@ -224,7 +238,7 @@ export const INITIAL_MOVIES: Movie[] = [
     id: '13',
     title: 'KILLER DJ ATTACK',
     category: 'yawed',
-    poster: '/src/assets/images/killer_dj_attack_poster_1779178330805.png',
+    poster: killerDjAttackPoster,
     description: 'Killer DJ atera umuziki uvura indwara, ariko bitunguranye abantu batangira kubyina barenze urugero. DANGER IN THE BUILDING!',
     year: '2026',
     rating: '5.0',
@@ -240,7 +254,7 @@ export const INITIAL_MOVIES: Movie[] = [
     id: '14',
     title: 'THE BOSS TIGER',
     category: 'action',
-    poster: '/src/assets/images/boss_tiger_poster_1779178345840.png',
+    poster: bossTigerPoster,
     description: 'Inkuru ya Tiger Nsanzi mu rugendo rwe rwo kuba umuyobozi w’ikinema mu Rwanda. Ni filime y’amateka n’ubutwari.',
     year: '2026',
     rating: '4.9',

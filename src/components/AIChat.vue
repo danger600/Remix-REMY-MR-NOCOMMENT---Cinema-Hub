@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, nextTick } from 'vue';
-import { MessageSquare, X, Send, Bot, Sparkles } from 'lucide-react';
+import { X, Send, Bot, Sparkles } from '@lucide/vue';
 import VueMarkdown from 'vue-markdown-render';
 
 interface Message {
@@ -35,7 +35,8 @@ watch(() => props.isOpen, (newVal) => {
   if (newVal) scrollToBottom();
 });
 
-const handleSend = async () => {
+const handleSend = async (event?: KeyboardEvent) => {
+  if (event?.isComposing || event?.keyCode === 229) return;
   if (!input.value.trim() || isLoading.value) return;
 
   const userMessage = input.value.trim();
@@ -44,23 +45,26 @@ const handleSend = async () => {
   isLoading.value = true;
 
   try {
-    const history = messages.value.map(msg => ({
+    const history = messages.value.map((msg) => ({
       role: msg.role,
-      parts: [{ text: msg.text }]
+      parts: [{ text: msg.text }],
     }));
-
-    const apiBaseUrl = import.meta.env.VITE_API_URL || '';
-    const res = await fetch(`${apiBaseUrl || '/api'}/chat`, {
+    const apiBaseUrl = (import.meta.env.VITE_API_URL || '/api').replace(/\/+$/, '');
+    const response = await fetch(`${apiBaseUrl}/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: userMessage, history })
+      body: JSON.stringify({ message: userMessage, history }),
     });
 
-    const data = await res.json();
-    if (data.text) {
-      messages.value.push({ role: 'model', text: data.text });
+    if (!response.ok) throw new Error('Chat request failed.');
+
+    const data = await response.json() as { text?: unknown };
+    if (typeof data.text !== 'string' || !data.text.trim()) {
+      throw new Error('Chat response was empty.');
     }
-  } catch (error) {
+
+    messages.value.push({ role: 'model', text: data.text.trim() });
+  } catch {
     messages.value.push({ role: 'model', text: 'Ihangane, habonetse ikibazo mu itumanaho... DANGER EXIT!' });
   } finally {
     isLoading.value = false;
@@ -74,12 +78,16 @@ const handleSend = async () => {
       <div
         v-if="isOpen"
         @click="emit('close')"
+        aria-hidden="true"
         class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
       />
     </Transition>
     <Transition name="scale">
       <div
         v-if="isOpen"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="chat-title"
         class="fixed bottom-6 right-6 w-[90vw] md:w-[400px] h-[600px] glass rounded-[32px] z-[101] flex flex-col shadow-2xl overflow-hidden"
       >
         <!-- Header -->
@@ -90,14 +98,16 @@ const handleSend = async () => {
               <Bot :size="24" class="text-primary relative z-10" />
             </div>
             <div>
-              <h3 class="font-black italic uppercase tracking-tighter text-white">AI YOZWE</h3>
+              <h3 id="chat-title" class="font-black italic uppercase tracking-tighter text-white">AI YOZWE</h3>
               <div class="flex items-center gap-1.5">
                 <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                 <span class="text-[10px] font-bold uppercase tracking-widest text-white/60">DANGER ONLINE</span>
               </div>
             </div>
           </div>
-          <button 
+          <button
+            type="button"
+            aria-label="Close chat"
             @click="emit('close')"
             class="p-2 hover:bg-white/10 rounded-full transition-colors text-white"
           >
@@ -110,8 +120,8 @@ const handleSend = async () => {
           <div v-for="(msg, i) in messages" :key="i" :class="['flex', msg.role === 'user' ? 'justify-end' : 'justify-start']">
             <div :class="[
               'max-w-[85%] p-4 rounded-2xl flex gap-3',
-              msg.role === 'user' 
-                ? 'bg-primary text-white rounded-tr-none shadow-lg shadow-primary/20' 
+              msg.role === 'user'
+                ? 'bg-primary text-white rounded-tr-none shadow-lg shadow-primary/20'
                 : 'bg-white/5 text-white/90 rounded-tl-none border border-white/10'
             ]">
               <Bot v-if="msg.role === 'model'" :size="16" class="mt-1 text-primary shrink-0" />
@@ -130,14 +140,18 @@ const handleSend = async () => {
         <div class="p-6 border-t border-white/5">
           <div class="relative">
             <input
-              type="text"
               v-model="input"
+              type="text"
+              maxlength="4000"
+              aria-label="Message"
               @keydown.enter="handleSend"
               placeholder="Andika ubutumwa hano..."
               class="w-full bg-white/5 border border-white/10 rounded-2xl pl-6 pr-14 py-4 focus:outline-none focus:border-primary transition-all text-sm"
             />
             <button
-              @click="handleSend"
+              type="button"
+              aria-label="Send message"
+              @click="handleSend()"
               :disabled="!input.trim() || isLoading"
               class="absolute right-2 top-1/2 -translate-y-1/2 p-3 bg-primary text-white rounded-xl hover:bg-primary-dark transition-all disabled:opacity-50"
             >

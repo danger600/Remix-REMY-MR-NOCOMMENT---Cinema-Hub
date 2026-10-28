@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { X, Star, Play, Clock, User, Calendar, MessageCircle, Send, Share2, Download, Twitter, Facebook } from 'lucide-react';
+import { X, Star, Play, Clock, User, Calendar, MessageCircle, Send } from '@lucide/vue';
+import { IconBrandFacebook, IconBrandTwitter } from '@tabler/icons-vue';
 import type { Movie, Review } from '../types';
 import { cn } from '../lib/utils';
 
@@ -45,18 +46,18 @@ const handleSubmitReview = () => {
 const shareOnTwitter = () => {
   const text = encodeURIComponent(`Reba ${props.movie.title} kuri Remy Mr Nocomment Platform! 🐯`);
   const url = encodeURIComponent(window.location.href);
-  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank', 'noopener,noreferrer');
 };
 
 const shareOnFacebook = () => {
   const url = encodeURIComponent(window.location.href);
-  window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'noopener,noreferrer');
 };
 
 const shareOnWhatsApp = () => {
   const text = encodeURIComponent(`Reba ${props.movie.title} kuri Remy Mr Nocomment Platform! 🐯`);
   const url = encodeURIComponent(window.location.href);
-  window.open(`https://api.whatsapp.com/send?text=${text}%20${url}`, '_blank');
+  window.open(`https://api.whatsapp.com/send?text=${text}%20${url}`, '_blank', 'noopener,noreferrer');
 };
 </script>
 
@@ -75,7 +76,9 @@ const shareOnWhatsApp = () => {
         class="fixed inset-4 md:inset-10 lg:inset-20 m-auto bg-secondary-light rounded-[40px] z-[301] overflow-hidden shadow-2xl flex flex-col md:flex-row border border-white/5"
       >
         <!-- Close Button -->
-        <button 
+          <button
+          type="button"
+          aria-label="Close movie details"
           @click="emit('close')"
           class="absolute top-6 right-6 z-[302] p-3 bg-black/60 backdrop-blur-xl rounded-full text-white/70 hover:text-white transition-colors border border-white/10"
         >
@@ -90,8 +93,9 @@ const shareOnWhatsApp = () => {
               key="trailer"
               class="w-full h-full"
             >
-              <iframe 
+              <iframe
                 :src="movie.trailerUrl + '?autoplay=1'"
+                :title="`${movie.title} trailer`"
                 class="w-full h-full"
                 frameborder="0"
                 allow="autoplay; encrypted-media"
@@ -103,9 +107,11 @@ const shareOnWhatsApp = () => {
               key="poster"
               class="w-full h-full relative"
             >
-              <img :src="movie.poster" class="w-full h-full object-cover brightness-[0.6]" />
+              <img :src="movie.poster" :alt="`${movie.title} poster`" class="w-full h-full object-cover brightness-[0.6]" />
               <div class="absolute inset-0 flex items-center justify-center">
-                <button 
+                <button
+                  v-if="movie.trailerUrl"
+                  type="button"
                   @click="showTrailer = true"
                   class="w-24 h-24 bg-primary text-white rounded-full flex items-center justify-center shadow-premium transform transition-transform hover:scale-110"
                 >
@@ -132,7 +138,12 @@ const shareOnWhatsApp = () => {
             </h2>
 
             <div class="flex flex-wrap gap-4 mb-12">
-              <button class="flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-2xl font-black uppercase italic tracking-tighter shadow-premium hover:scale-105 transition-all">
+              <button
+                type="button"
+                @click="showTrailer = true"
+                :disabled="!movie.trailerUrl"
+                class="flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-2xl font-black uppercase italic tracking-tighter shadow-premium hover:scale-105 transition-all disabled:cursor-not-allowed disabled:opacity-40"
+              >
                 <Play :size="18" fill="currentColor" />
                 Bure imbere
               </button>
@@ -143,14 +154,14 @@ const shareOnWhatsApp = () => {
                   class="w-14 h-14 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center text-white/50 hover:text-white hover:bg-[#1DA1F2] transition-all"
                   title="Share on Twitter"
                 >
-                  <Twitter :size="20" />
+                  <IconBrandTwitter :size="20" />
                 </button>
                 <button 
                   @click="shareOnFacebook"
                   class="w-14 h-14 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center text-white/50 hover:text-white hover:bg-[#4267B2] transition-all"
                   title="Share on Facebook"
                 >
-                  <Facebook :size="20" />
+                  <IconBrandFacebook :size="20" />
                 </button>
                 <button 
                   @click="shareOnWhatsApp"
@@ -161,9 +172,6 @@ const shareOnWhatsApp = () => {
                 </button>
               </div>
 
-              <button class="hidden sm:flex items-center gap-3 px-6 py-4 bg-white/5 border border-white/5 rounded-2xl font-black uppercase italic tracking-tighter hover:bg-white/10 transition-all">
-                <Download :size="18" />
-              </button>
             </div>
 
             <div class="flex flex-wrap gap-10 mb-12">
@@ -221,7 +229,7 @@ const shareOnWhatsApp = () => {
                 class="group text-left"
               >
                 <div class="aspect-[3/4] rounded-2xl overflow-hidden mb-4 border border-white/5 group-hover:border-primary/50 transition-all">
-                  <img :src="m.poster" class="w-full h-full object-cover transition-transform group-hover:scale-105" />
+                  <img :src="m.poster" :alt="`${m.title} poster`" class="w-full h-full object-cover transition-transform group-hover:scale-105" />
                 </div>
                 <h4 class="font-black uppercase italic tracking-tighter text-sm truncate group-hover:text-primary transition-colors">{{ m.title }}</h4>
                 <div class="flex items-center gap-2 mt-1">

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Play, Plus, Check, Star, Eye, TrendingUp, Twitter, Facebook, MessageCircle } from 'lucide-react';
+import { Play, Plus, Check, Star, Eye, TrendingUp, MessageCircle } from '@lucide/vue';
+import { IconBrandFacebook, IconBrandTwitter } from '@tabler/icons-vue';
 import type { Movie } from '@/src/types';
 import { cn } from '@/src/lib/utils';
 
@@ -63,10 +64,10 @@ const shareOnWhatsApp = (e: MouseEvent) => {
       <!-- Social Share Over Poster (On Hover) -->
       <div class="absolute inset-x-0 bottom-0 top-1/2 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4 z-10">
          <button @click.stop="shareOnTwitter" class="w-10 h-10 bg-black/60 backdrop-blur-xl rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-[#1DA1F2] transition-all scale-75 group-hover:scale-100 duration-500 border border-white/10" title="Share on Twitter">
-           <Twitter :size="16" />
+           <IconBrandTwitter :size="16" />
          </button>
          <button @click.stop="shareOnFacebook" class="w-10 h-10 bg-black/60 backdrop-blur-xl rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-[#4267B2] transition-all scale-75 group-hover:scale-100 duration-500 delay-[50ms] border border-white/10" title="Share on Facebook">
-           <Facebook :size="16" />
+           <IconBrandFacebook :size="16" />
          </button>
          <button @click.stop="shareOnWhatsApp" class="w-10 h-10 bg-black/60 backdrop-blur-xl rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-[#25D366] transition-all scale-75 group-hover:scale-100 duration-500 delay-[100ms] border border-white/10" title="Share on WhatsApp">
            <MessageCircle :size="16" />

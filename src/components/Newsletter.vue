@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Send, Bell, CheckCircle2 } from 'lucide-react';
+import { Send, Bell, CheckCircle2 } from '@lucide/vue';
 
 const email = ref('');
 const isSubscribed = ref(false);

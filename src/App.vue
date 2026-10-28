@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
-import { Search, TrendingUp, Filter, ChevronDown, Play, X, Mail, Phone, Instagram, Youtube, Film } from 'lucide-react';
+import { Search, TrendingUp, Filter, ChevronDown, Play, X, Mail, Phone, Film } from '@lucide/vue';
+import { IconBrandInstagram, IconBrandYoutube } from '@tabler/icons-vue';
 import { INITIAL_MOVIES, MOVIE_CATEGORIES } from './types';
 import type { Movie } from './types';
 
@@ -80,8 +81,8 @@ const trendingMovies = computed(() => {
 const contactItems = [
   { icon: Mail, label: 'Email', value: 'remmynsanzimana@gmail.com', link: 'mailto:remmynsanzimana@gmail.com' },
   { icon: Phone, label: 'Wayphone', value: '+250 795 547 233', link: 'tel:+250795547233' },
-  { icon: Instagram, label: 'Instagram', value: '@tigernsanz', link: 'https://instagram.com/tigernsanz' },
-  { icon: Youtube, label: 'Youtube', value: 'Rocky Entertainment 84', link: 'https://youtube.com/@RockyEntertainment84' },
+  { icon: IconBrandInstagram, label: 'Instagram', value: '@tigernsanz', link: 'https://instagram.com/tigernsanz' },
+  { icon: IconBrandYoutube, label: 'Youtube', value: 'Rocky Entertainment 84', link: 'https://youtube.com/@RockyEntertainment84' },
 ];
 </script>
 
@@ -115,7 +116,7 @@ const contactItems = [
               class="min-w-[300px] md:min-w-[350px] snap-start group cursor-pointer"
             >
               <div class="aspect-[16/9] rounded-[32px] overflow-hidden mb-6 relative border border-white/5 group-hover:border-primary/50 transition-all duration-700">
-                <img :src="movie.poster" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                <img :src="movie.poster" :alt="`${movie.title} poster`" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
                 <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center shadow-premium transform scale-90 group-hover:scale-100 transition-transform">

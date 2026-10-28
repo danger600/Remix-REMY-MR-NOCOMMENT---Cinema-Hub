@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { TrendingUp, Users, Eye, Star, Activity } from 'lucide-react';
+import { TrendingUp, Users, Eye, Star, Activity } from '@lucide/vue';
 import ApexCharts from 'vue3-apexcharts';
 
 const stats = [

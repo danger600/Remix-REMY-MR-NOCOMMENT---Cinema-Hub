@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Play, TrendingUp, MessageSquare } from 'lucide-react';
+import { Play, TrendingUp, MessageSquare } from '@lucide/vue';
+import shakaFlimePoster from '../assets/images/shaka_flime_poster_1779178669774.png';
 
 defineProps<{
   onSuggestionClick: () => void;
@@ -10,7 +11,7 @@ defineProps<{
   <section id="home" class="relative h-[95vh] flex items-center justify-center overflow-hidden">
     <!-- Dynamic Background -->
     <div class="absolute inset-0">
-      <div class="absolute inset-0 bg-[url('/src/assets/images/shaka_flime_poster_1779178669774.png')] bg-cover bg-center brightness-[0.3]" />
+      <div class="absolute inset-0 bg-cover bg-center brightness-[0.3]" :style="{ backgroundImage: `url(${shakaFlimePoster})` }" />
       <div class="absolute inset-0 bg-gradient-to-t from-secondary via-transparent to-black/60" />
       <div class="absolute inset-0 bg-gradient-to-r from-secondary/80 via-transparent to-transparent" />
     </div>

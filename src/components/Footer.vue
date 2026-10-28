@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Film } from 'lucide-react';
+import { Film } from '@lucide/vue';
 </script>
 
 <template>

@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { Music, Disc, Radio, Play } from 'lucide-react';
+import { Music, Disc, Radio, Play } from '@lucide/vue';
+import dangerBuildingMixCover from '../assets/images/killer_dj_mix_poster_1779178312166.png';
+import predictorBeatCover from '../assets/images/predictor_beat_poster_1779178294613.png';
+import killerDjAttackCover from '../assets/images/killer_dj_attack_poster_1779178330805.png';
 
 const mixes = [
-  { title: 'DANGER BUILDING MIX', duration: '45:20', bpm: '128', cover: '/src/assets/images/killer_dj_mix_poster_1779178312166.png' },
-  { title: 'PREDICTOR BEAT VOL 1', duration: '32:15', bpm: '140', cover: '/src/assets/images/predictor_beat_poster_1779178294613.png' },
-  { title: 'KILLER DJ ATTACK', duration: '58:40', bpm: '125', cover: '/src/assets/images/killer_dj_attack_poster_1779178330805.png' },
+  { title: 'DANGER BUILDING MIX', duration: '45:20', bpm: '128', cover: dangerBuildingMixCover },
+  { title: 'PREDICTOR BEAT VOL 1', duration: '32:15', bpm: '140', cover: predictorBeatCover },
+  { title: 'KILLER DJ ATTACK', duration: '58:40', bpm: '125', cover: killerDjAttackCover },
 ];
 </script>
 
@@ -52,7 +55,7 @@ const mixes = [
             class="group relative bg-white/5 border border-white/5 p-6 rounded-3xl flex items-center gap-6 hover:bg-white/10 hover:border-primary/30 transition-all cursor-pointer"
           >
             <div class="h-24 w-24 rounded-2xl overflow-hidden shrink-0 relative">
-              <img :src="mix.cover" class="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+              <img :src="mix.cover" :alt="mix.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform" />
               <div class="absolute inset-0 bg-primary/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <Play :size="24" fill="currentColor" />
               </div>

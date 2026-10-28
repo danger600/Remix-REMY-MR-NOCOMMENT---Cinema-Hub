@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { X, Send, Film, MessageCircle, AlertCircle } from 'lucide-react';
+import { X, Send, Film, MessageCircle, AlertCircle } from '@lucide/vue';
 
 defineProps<{
   isOpen: boolean;
@@ -15,34 +15,38 @@ const genre = ref('action');
 const description = ref('');
 const isSubmitting = ref(false);
 const showSuccess = ref(false);
+const submissionError = ref('');
 
 const handleSubmit = async () => {
-  if (!title.value.trim() || !description.value.trim()) return;
-  
+  const normalizedTitle = title.value.trim();
+  const normalizedDescription = description.value.trim();
+  if (!normalizedTitle || !normalizedDescription || isSubmitting.value) return;
+
   isSubmitting.value = true;
+  submissionError.value = '';
   try {
-    const apiBaseUrl = import.meta.env.VITE_API_URL || '';
-    const res = await fetch(`${apiBaseUrl || '/api'}/suggestions`, {
+    const apiBaseUrl = (import.meta.env.VITE_API_URL || '/api').replace(/\/+$/, '');
+    const response = await fetch(`${apiBaseUrl}/suggestions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        title: title.value,
+        title: normalizedTitle,
         genre: genre.value,
-        description: description.value
-      })
+        description: normalizedDescription,
+      }),
     });
-    
-    if (res.ok) {
-      showSuccess.value = true;
-      title.value = '';
-      description.value = '';
-      setTimeout(() => {
-        showSuccess.value = false;
-        emit('close');
-      }, 2000);
-    }
-  } catch (error) {
-    console.error("Failed to submit suggestion:", error);
+
+    if (!response.ok) throw new Error('Suggestion request failed.');
+
+    showSuccess.value = true;
+    title.value = '';
+    description.value = '';
+    setTimeout(() => {
+      showSuccess.value = false;
+      emit('close');
+    }, 2000);
+  } catch {
+    submissionError.value = 'Could not submit your suggestion. Please try again.';
   } finally {
     isSubmitting.value = false;
   }
@@ -52,15 +56,25 @@ const handleSubmit = async () => {
 <template>
   <div class="contents">
     <Transition name="fade">
-      <div v-if="isOpen" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[200]" @click="emit('close')" />
-    </Transition>
-    
-    <Transition name="scale">
-      <div 
+      <div
         v-if="isOpen"
+        @click="emit('close')"
+        aria-hidden="true"
+        class="fixed inset-0 bg-black/90 backdrop-blur-md z-[200]"
+      />
+    </Transition>
+
+    <Transition name="scale">
+      <div
+        v-if="isOpen"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="suggestion-dialog-title"
         class="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[600px] h-fit max-h-[90vh] bg-secondary-light rounded-[40px] z-[201] p-10 overflow-y-auto border border-white/5 shadow-2xl custom-scrollbar"
       >
-        <button 
+        <button
+          type="button"
+          aria-label="Close suggestion dialog"
           @click="emit('close')"
           class="absolute top-8 right-8 p-3 hover:bg-white/5 rounded-full transition-colors text-white/30 hover:text-white"
         >
@@ -73,17 +87,19 @@ const handleSubmit = async () => {
               <Film :size="24" />
             </div>
             <div>
-              <h3 class="text-3xl font-black italic uppercase tracking-tighter">Suggestion Room</h3>
+              <h3 id="suggestion-dialog-title" class="text-3xl font-black italic uppercase tracking-tighter">Suggestion Room</h3>
               <p class="text-[10px] font-bold text-white/20 uppercase tracking-widest">Wifuza film ki nshya hano?</p>
             </div>
           </div>
 
           <form @submit.prevent="handleSubmit" class="space-y-8">
             <div class="space-y-3">
-              <label class="mono-label">Title of the Movie</label>
-              <input 
+              <label for="suggestion-title" class="mono-label">Title of the Movie</label>
+              <input
+                id="suggestion-title"
                 v-model="title"
                 type="text"
+                maxlength="200"
                 required
                 class="w-full bg-black/40 border border-white/5 rounded-2xl p-5 focus:outline-none focus:border-primary transition-all font-bold italic"
                 placeholder="Ex: Tiger vs Lion 2"
@@ -91,8 +107,9 @@ const handleSubmit = async () => {
             </div>
 
             <div class="space-y-3">
-              <label class="mono-label">Category</label>
-              <select 
+              <label for="suggestion-genre" class="mono-label">Category</label>
+              <select
+                id="suggestion-genre"
                 v-model="genre"
                 class="w-full bg-black/40 border border-white/5 rounded-2xl p-5 focus:outline-none focus:border-primary transition-all font-bold italic appearance-none"
               >
@@ -104,16 +121,22 @@ const handleSubmit = async () => {
             </div>
 
             <div class="space-y-3">
-              <label class="mono-label">Why should we add it?</label>
-              <textarea 
+              <label for="suggestion-description" class="mono-label">Why should we add it?</label>
+              <textarea
+                id="suggestion-description"
                 v-model="description"
+                maxlength="2000"
                 required
                 class="w-full bg-black/40 border border-white/5 rounded-2xl p-5 focus:outline-none focus:border-primary transition-all font-bold italic min-h-[150px] resize-none"
                 placeholder="Sobanura impamvu iyi film ikenewe mu building..."
               />
             </div>
 
-            <button 
+            <p v-if="submissionError" role="alert" class="text-sm font-medium text-red-300">
+              {{ submissionError }}
+            </p>
+
+            <button
               type="submit"
               :disabled="isSubmitting"
               class="w-full btn-netflix !py-5 flex items-center justify-center gap-4 group"
@@ -138,11 +161,11 @@ const handleSubmit = async () => {
         </div>
 
         <div v-else class="py-20 text-center flex flex-col items-center justify-center">
-           <div class="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mb-8 animate-bounce shadow-lg shadow-green-500/20">
-             <MessageCircle :size="48" class="text-white" />
-           </div>
-           <h3 class="text-4xl font-black italic uppercase tracking-tighter mb-4">Murakoze!</h3>
-           <p class="text-white/40 font-bold italic">Igitekerezo cyanyu cyageze mu building. 🐯</p>
+          <div class="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mb-8 animate-bounce shadow-lg shadow-green-500/20">
+            <MessageCircle :size="48" class="text-white" />
+          </div>
+          <h3 class="text-4xl font-black italic uppercase tracking-tighter mb-4">Murakoze!</h3>
+          <p class="text-white/40 font-bold italic">Igitekerezo cyanyu cyageze mu building. 🐯</p>
         </div>
       </div>
     </Transition>

@@ -13,7 +13,7 @@ This project is designed to be split into two parts: **Frontend (Vercel)** and *
    - **Build Command**: `npm install && vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --outfile=dist/server.cjs`
    - **Start Command**: `node dist/server.cjs`
 4. **Environment Variables**:
-   - `GEMINI_API_KEY`: Your Google Gemini API Key.
+   - AI chat uses Vercel AI Gateway. Vercel supplies authentication automatically in its runtime; a standalone Render backend does not receive that authentication and cannot serve AI chat with this configuration.
    - `FRONTEND_URL`: `https://your-app-name.vercel.app` (Full URL, no trailing slash).
    - `NODE_ENV`: `production`
 

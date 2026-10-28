@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
-import { Film, MessageSquare, Menu, X } from 'lucide-react';
+import { Film, MessageSquare, Menu, X } from '@lucide/vue';
 
 defineProps<{
   onAIChatClick: () => void;
